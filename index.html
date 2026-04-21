@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Marec HR360.Frontend</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!-- ============================
+     MAREC HR360 — FULLSTACK DEMO
+     SHRM-ALIGNED HR INTELLIGENCE PLATFORM
+     ============================ -->
+
+<div class="hero-bg"></div>
+
+<div class="app">
+
+  <!-- ======================
+       SIDEBAR
+       ====================== -->
+  <aside class="sidebar">
+    <div class="logo-wrap">
+      <img 
+        src="https://raw.githubusercontent.com/markreciopro/marec_hr360_frontend/main/Marec%20HR360.png"
+        class="logo"
+        alt="Marec HR360 Logo"
+      />
+      <div class="logo-tagline">Workforce Intelligence Platform</div>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-title">Contact</div>
+       <div class="contact-line">
+        <span>Fullstack Software Developer</span>
+        <strong>Mark A Recio</strong>
+      </div><div class="contact-line">
+        <span>Email</span>
+        <strong>mar@marec.site</strong>
+      </div>
+      <div class="contact-line">
+        <span>Location</span>
+        <strong>Las Vegas, NV</strong>
+      </div>
+    </div>
+
+    <button class="nav-btn active" onclick="showSection('home', this)">Home</button>
+    <button class="nav-btn" onclick="showSection('dashboard', this)">Dashboard</button>
+    <button class="nav-btn" onclick="showSection('metrics', this)">HR Metrics Matrix</button>
+    <button class="nav-btn" onclick="showSection('knowledge', this)">Knowledge Lab</button>
+    <button class="nav-btn" onclick="showSection('competency', this)">Competency Matrix</button>
+    <button class="nav-btn" onclick="showSection('compliance', this)">Compliance Center</button>
+    <button class="nav-btn" onclick="showSection('kpiLibrary', this)">KPI Formula Library</button>
+    <button class="nav-btn" onclick="showSection('glossary', this)">HR Glossary & Study</button>
+    <button class="nav-btn" onclick="showSection('force', this)">Force Distribution</button>
+    <button class="nav-btn" onclick="showSection('addie', this)">ADDIE System Map</button>
+  </aside>
+
+  <!-- ======================
+       MAIN CONTENT
+       ====================== -->
+  <main class="content">
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+      <div class="hero-section">
+        <img 
+          src="https://raw.githubusercontent.com/markreciopro/marec_hr360_frontend/main/Marec%20HR360.png"
+          class="hero-logo"
+          alt="Marec HR360 Logo"
+        />
+        <h1 class="hero-title">MAREC HR360</h1>
+        <p class="hero-subtitle">
+          SHRM-aligned workforce intelligence: upload HR and business CSVs, calculate SHRM-style KPIs, visualize competencies,
+          compliance, and talent risk, and orchestrate everything through a live ADDIE engine.
+        </p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="section">
+      <div class="page-header">
+        <h1>Core Dashboard</h1>
+        <div class="subtitle">Unified workforce health, risk, and performance</div>
+      </div>
+
+      <div class="grid overview-grid">
+        <div class="card metric-card">
+          <div class="metric-label">Headcount</div>
+          <div class="metric-value" id="headcount">0</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Attrition</div>
+          <div class="metric-value" id="attrition">0%</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label" id="riskLabel">High Risk</div>
+          <div class="metric-value" id="risk">0</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label" id="healthLabel">Org Health</div>
+          <div class="metric-value" id="health">0</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="section-title">Headcount by Department</div>
+          <canvas id="deptChart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Salary Bell Curve</div>
+          <canvas id="bellCurveChart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Risk Probability Histogram</div>
+          <canvas id="riskHistogram"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Salary vs Risk Scatter</div>
+          <canvas id="riskScatter"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Employee Risk Table</div>
+        <table id="riskTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Dept</th>
+              <th>Salary</th>
+              <th>Tenure</th>
+              <th>Risk Level</th>
+              <th>Probability</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="section-title">AI Insights</div>
+        <div id="insights" class="pill-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Recommendations</div>
+        <div id="recommend" class="pill-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Upload HR Dataset (People CSV)</div>
+        <p class="hint small">
+          Example columns: name, dept, salary, tenure, risk_level, risk_probability
+        </p>
+        <input type="file" id="fileInput" />
+        <div id="uploadStatus" class="hint small">
+          Select a CSV to begin cleaning and loading into the dashboard.
+        </div>
+        <button class="btn" onclick="processFile()">Process HR CSV</button>
+      </div>
+    </section>
+
+    <!-- HR METRICS MATRIX -->
+    <section id="metrics" class="section">
+      <div class="page-header">
+        <h1>HR Metrics Matrix</h1>
+        <div class="subtitle">Performance, retention, and capability modeling</div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="section-title">HR Metric Strength Radar</div>
+          <canvas id="metricsRadarChart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Performance Trend</div>
+          <canvas id="metricsTrendChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- KNOWLEDGE LAB -->
+    <section id="knowledge" class="section">
+      <div class="page-header">
+        <h1>Knowledge Lab</h1>
+        <div class="subtitle">Forecasting, regression, and productivity modeling</div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Upload Business Dataset (Dept CSV)</div>
+        <p class="hint small">
+          Example columns: dept, employees, units, sales
+        </p>
+        <input type="file" id="knowledgeFile" />
+        <div id="knowledgeStatus" class="hint small">
+          Upload CSV to override demo data and rebuild charts, KPIs, and ADDIE context.
+        </div>
+        <button class="btn" onclick="processKnowledgeFile()">Process Business CSV</button>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="section-title">Headcount by Department</div>
+          <canvas id="kDeptChart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Productivity (Units per Employee)</div>
+          <canvas id="kProductivityChart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Sales vs Employees Regression</div>
+          <canvas id="kSalesRegressionChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Forecast Headcount from Sales</div>
+        <input type="number" id="kForecastSalesInput" placeholder="Projected sales…" />
+        <button class="btn" onclick="runKnowledgeSalesForecast()">Forecast</button>
+        <div id="kForecastSalesResult" class="hint"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Key KPIs</div>
+        <div class="grid">
+          <div class="metric-card">
+            <div class="metric-label">Total Headcount</div>
+            <div class="metric-value" id="kpiTotalHeadcount">0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Avg Units per Employee</div>
+            <div class="metric-value" id="kpiAvgUnitsPerEmp">0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Avg Sales per Employee</div>
+            <div class="metric-value" id="kpiAvgSalesPerEmp">$0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Top Department</div>
+            <div class="metric-value" id="kpiTopDept">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Insights</div>
+        <ul id="kInsightsList" class="bullet-list"></ul>
+      </div>
+    </section>
+
+    <!-- COMPETENCY MATRIX -->
+    <section id="competency" class="section">
+      <div class="page-header">
+        <h1>Competency Matrix</h1>
+        <div class="subtitle">SHRM-style behavioral and technical competencies by role</div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Competency Overview</div>
+        <p class="hint small">
+          Demo data aligned to SHRM competencies: Leadership, Ethical Practice, Business Acumen, Consultation,
+          Critical Evaluation, Communication, Relationship Management.
+        </p>
+        <canvas id="competencyRadar"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Role-Based Competency Grid</div>
+        <table id="competencyTable">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Leadership</th>
+              <th>Ethical</th>
+              <th>Business</th>
+              <th>Consultation</th>
+              <th>Critical Eval</th>
+              <th>Communication</th>
+              <th>Relationship</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- COMPLIANCE CENTER -->
+    <section id="compliance" class="section">
+      <div class="page-header">
+        <h1>Compliance Center</h1>
+        <div class="subtitle">Risk, coverage, and policy readiness</div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="section-title">Compliance Risk Snapshot</div>
+          <canvas id="complianceRadar"></canvas>
+        </div>
+        <div class="card">
+          <div class="section-title">Key Compliance Indicators</div>
+          <div class="grid">
+            <div class="metric-card">
+              <div class="metric-label">Overall Compliance Score</div>
+              <div class="metric-value" id="complianceScore">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Open Issues</div>
+              <div class="metric-value" id="complianceIssues">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">High-Risk Domains</div>
+              <div class="metric-value" id="complianceHighRisk">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Compliance Checklist (Demo)</div>
+        <ul id="complianceList" class="bullet-list"></ul>
+      </div>
+    </section>
+
+    <!-- KPI FORMULA LIBRARY -->
+    <section id="kpiLibrary" class="section">
+      <div class="page-header">
+        <h1>KPI Formula Library</h1>
+        <div class="subtitle">SHRM-style HR metrics and formulas</div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Core HR KPIs</div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <h4>Turnover Rate</h4>
+            <p class="kpi-formula">(# of separations ÷ avg headcount) × 100</p>
+            <p class="kpi-note">Use HR CSV headcount and separations to track voluntary/involuntary turnover.</p>
+          </div>
+          <div class="kpi-card">
+            <h4>Cost per Hire</h4>
+            <p class="kpi-formula">(Total recruiting cost ÷ # of hires)</p>
+            <p class="kpi-note">Integrate with recruiting spend to monitor acquisition efficiency.</p>
+          </div>
+          <div class="kpi-card">
+            <h4>Absence Rate</h4>
+            <p class="kpi-formula">(# of absence days ÷ total workdays) × 100</p>
+            <p class="kpi-note">Combine time & attendance data with HR360 headcount.</p>
+          </div>
+          <div class="kpi-card">
+            <h4>Training ROI</h4>
+            <p class="kpi-formula">((Program benefit − cost) ÷ cost) × 100</p>
+            <p class="kpi-note">Link Knowledge Lab productivity gains to learning investments.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Live KPI Examples from Current Data</div>
+        <ul id="kpiLiveList" class="bullet-list"></ul>
+      </div>
+    </section>
+
+    <!-- HR GLOSSARY & STUDY MODE -->
+    <section id="glossary" class="section">
+      <div class="page-header">
+        <h1>HR Glossary & Study Mode</h1>
+        <div class="subtitle">SHRM-style terms, definitions, and learning overlay</div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Glossary</div>
+        <input type="text" id="glossarySearch" placeholder="Search HR term…" oninput="filterGlossary()" />
+        <ul id="glossaryList" class="bullet-list glossary-list"></ul>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Study Mode</div>
+        <p class="hint small">
+          Toggle Study Mode to overlay definitions and SHRM-style explanations on dashboards and KPIs.
+        </p>
+        <button class="btn" onclick="toggleStudyMode()">Toggle Study Mode</button>
+        <div id="studyModeStatus" class="hint small">Study Mode: OFF</div>
+      </div>
+    </section>
+
+    <!-- FORCE DISTRIBUTION -->
+    <section id="force" class="section">
+      <div class="page-header">
+        <h1>Force Distribution</h1>
+        <div class="subtitle">Vertical bell curve talent segmentation</div>
+      </div>
+
+      <div class="card">
+        <canvas id="forceChart"></canvas>
+      </div>
+    </section>
+
+    <!-- ADDIE SYSTEM MAP -->
+    <section id="addie" class="section">
+      <div class="page-header">
+        <h1>ADDIE System Map</h1>
+        <div class="subtitle">
+          Live visualization of the HR360 data pipeline — HR & business CSVs, SHRM KPIs, competencies, compliance, and evaluation.
+        </div>
+      </div>
+
+      <div class="addie-container">
+
+        <!-- CENTRAL WHEEL -->
+        <div class="addie-wheel" id="addieWheel">
+          <div class="addie-center">ADDIE</div>
+        </div>
+
+        <!-- LABELS -->
+        <div class="addie-segment a" data-phase="Analyze">Analyze</div>
+        <div class="addie-segment d1" data-phase="Design">Design</div>
+        <div class="addie-segment d2" data-phase="Develop">Develop</div>
+        <div class="addie-segment i" data-phase="Implement">Implement</div>
+        <div class="addie-segment e" data-phase="Evaluate">Evaluate</div>
+
+        <!-- ORBIT -->
+        <div class="orbit">
+          <div class="orbit-item orbit-dashboard">
+            <div class="orbit-card" data-phase-link="Analyze" onclick="showSection('dashboard'); setActiveAddiePhase('Analyze');">
+              Core Dashboard
+            </div>
+          </div>
+          <div class="orbit-item orbit-metrics">
+            <div class="orbit-card" data-phase-link="Design" onclick="showSection('metrics'); setActiveAddiePhase('Design');">
+              Metrics Matrix
+            </div>
+          </div>
+          <div class="orbit-item orbit-knowledge">
+            <div class="orbit-card" data-phase-link="Develop" onclick="showSection('knowledge'); setActiveAddiePhase('Develop');">
+              Knowledge Lab
+            </div>
+          </div>
+          <div class="orbit-item orbit-api">
+            <div class="orbit-card" data-phase-link="Evaluate" onclick="jumpToForce(); setActiveAddiePhase('Evaluate');">
+              Force Distribution
+            </div>
+          </div>
+        </div>
+
+        <!-- CONNECTOR LINES -->
+        <svg class="addie-lines" width="100%" height="100%">
+          <line id="line-dashboard" />
+          <line id="line-metrics" />
+          <line id="line-knowledge" />
+          <line id="line-api" />
+        </svg>
+      </div>
+
+      <div class="card addie-phase-card" data-phase-detail="Analyze">
+        <h3 id="addiePhaseTitle">Analyze • Where we are now</h3>
+        <p id="addiePhaseBody">
+          Analyze uses the Core Dashboard, Competency Matrix, and Compliance Center to understand workforce health,
+          risk, capability, and legal exposure. Upload HR and Business CSVs to populate SHRM-style metrics.
+        </p>
+        <ul class="bullet-list" id="addieDataSummary"></ul>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Data Pipeline Status</div>
+        <ul class="bullet-list" id="pipelineStatusList">
+          <li>HR CSV: demo data loaded.</li>
+          <li>Business CSV: demo data loaded.</li>
+          <li>Competency & Compliance: demo profiles active.</li>
+          <li>ADDIE: synchronized with current dashboards, KPIs, and SHRM-aligned modules.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="footer">© 2026 MAREC Insights — HR360 Workforce Intelligence</div>
+
+  </main>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
